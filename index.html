@@ -4,11 +4,12 @@
 	<meta charset="UTF-8">
 	<title>gallery</title>
 	<link href="css/index.css" rel="stylesheet" type="text/css"></link>
+	<script type="text/javascript" src="js/index.js"></script>
 </head>
-<body>
+<body onselectstart="return false;">
 	<div class="stage">
-		<div class="photo photo-center">
-			<div class="photo-wrap">
+		<div class="photo photo-center" >
+			<div class="photo-wrap photo-front" onclick="reversal(this)">
 				<div class="side side-front">
 					<div class="photo-img">
 						<img src="imgs/templet.jpeg" alt="picture">
