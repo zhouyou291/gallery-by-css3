@@ -6,15 +6,33 @@
 }
 .stage .photo{
 	width:250px;height: 380px;background-color: #fff;position:absolute;overflow: hidden;z-index:1;box-shadow:0 0 10px 10px rgba(0,0,0,0.5);
+	perspective:800px;
 }
 .stage .photo-center{
 	top:50%;left:50%;margin-top:-190px;margin-left:-175px;
 }
 .photo .photo-wrap{
 	width:100%;height:100%;
+	transition:all 1s;
 }
 .photo .side{
-	width:100%;height:100%;padding:20px;box-sizing:border-box;position: absolute;
+	width:100%;height:100%;padding:20px;box-sizing:border-box;position: absolute;backface-visibility:hidden;
+	
+}
+.photo .photo-front{
+	transform:rotateY(0);
+	-webkit-transform:rotateY(0);
+	transform-style:preserve-3d;
+
+}
+.photo .photo-back{
+	transform:rotateY(180deg);
+	-webkit-transform:rotateY(180deg);
+	transform-style:preserve-3d;
+}
+.photo .side-front{
+	transfrom:rotateY(0);
+	-webkit-transform:rotateY(0);
 }
 .photo .photo-img{
 	width:100%;height:300px;
@@ -24,4 +42,9 @@
 }
 .photo .photo-title{
 	text-align: center
+}
+.photo .side-back{
+	transform:rotateY(180deg);
+	-webkit-transform:rotateY(180deg);
+	background-color: #ccc
 }
