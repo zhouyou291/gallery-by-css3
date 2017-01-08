@@ -7,22 +7,24 @@
 	<script type="text/javascript" src="js/index.js"></script>
 </head>
 <body onselectstart="return false;">
-	<div class="stage">
-		<div class="photo photo-center" >
+	<div class="stage" id="stage">
+		<div class="photo" id="photo_{{index}}">
 			<div class="photo-wrap photo-front" onclick="reversal(this)">
 				<div class="side side-front">
 					<div class="photo-img">
-						<img src="imgs/templet.jpeg" alt="picture">
+						<img src="imgs/{{img}}" alt="picture">
 					</div>
 					<div class="photo-title">
-						<h2>指环王1</h2>
+						<h2>{{caption}}</h2>
 					</div>
 				</div>
 				<div class="side side-back">
-					<p>电影描述</p>
+					<p>{{desc}}</p>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 </body>
 </html>
