@@ -58,6 +58,33 @@ function random(range){
 	return number;
 }
 
+function range(){
+
+	// 公共的宽和高
+	var stageW=g("stage").clientWidth;
+	var stageH=g("stage").clientHeight;
+	var halfStageW=stageW/2;
+	var halfStageH=stageH/2;
+
+	var photoW=g("photo_0").clientWidth;
+	var photoH=g("photo_0").clientHeight;
+	var halfPhotoW=photoW/2;
+	var halfPhotoH=photoH/2;
+
+	// 屏幕左边区域范围
+	// var sectionLeft={x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+	// 屏幕右边区域范围
+	// var sectionRight={x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+
+	var section={sectionLeft:{x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	y:[-halfPhotoH,stageH-halfPhotoH]},sectionRight:{x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	y:[-halfPhotoH,stageH-halfPhotoH]}};
+
+	return section;
+}
+
 // 海报翻转函数
 function reversal(eleObj){
 	var eleclass=eleObj.className;
@@ -84,15 +111,20 @@ function reversal(eleObj){
 // 海报内容输出
 function addPhotos(){
 	var photos=[];
+	var navs=[];
 	var temp=g("stage").innerHTML;
 	for(i in datas)
 	{
 		var _html=temp.replace(/{{index}}/,i).replace(/{{img}}/,datas[i].img).replace(/{{caption}}/,datas[i].caption).replace(/{{desc}}/,datas[i].desc);
 		
 		photos.push(_html);
+
+		navs.push('<li class="nav" id="nav_'+i+'" onclick="reversal(g(\'photo_'+i+'\'))"></li>');
 	}
 	
 	g("stage").innerHTML=photos.join(" ");
+
+	g("stage").innerHTML+='<ul class="navs">'+navs.join(" ")+'</ul>';
 }
 
 // 海报排序
@@ -110,41 +142,31 @@ function rsort(){
 
 	var pcenter=random([0,19]);
 	var photo_center=g("photo_"+pcenter);
+	// 海报居中
 	photo_center.className+=" photo-center";
+	// 对应居中的导航条变大并且显示图标字体
+	g("nav_"+pcenter).className+=" s"
+
 	photo_center=photos.splice(pcenter,1)[0];
 
-	console.log(photos.length);
+	var section=range();
 
-	// 公共的宽和高
-	var stageW=g("stage").clientWidth;
-	var stageH=g("stage").clientHeight;
-	var halfStageW=stageW/2;
-	var halfStageH=stageH/2;
-
-	var photoW=g("photo_0").clientWidth;
-	var photoH=g("photo_0").clientHeight;
-	var halfPhotoW=photoW/2;
-	var halfPhotoH=photoH/2;
-
-	// 屏幕左边区域范围
-	var sectionLeft={x:[-halfPhotoW,halfStageW-halfPhotoW*3],
-	y:[-halfPhotoH,stageH-halfPhotoH]};
-	// 屏幕右边区域范围
-	var sectionRight={x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
-	y:[-halfPhotoH,stageH-halfPhotoH]};
+	
 	//排序屏幕左边的海报
 	var leftNum=Math.ceil(photos.length/2);
 	var leftDatas=photos.splice(0,leftNum);
 	for(i in leftDatas)
 	{
-		leftDatas[i].style.left=random(sectionLeft.x)+"px";
-		leftDatas[i].style.top=random(sectionLeft.y)+"px";
+		leftDatas[i].style.left=random(section.sectionLeft.x)+"px";
+		leftDatas[i].style.top=random(section.sectionLeft.y)+"px";
+		leftDatas[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 	// 排序屏幕右边的海报
 	for(i in photos)
 	{
-		photos[i].style.left=random(sectionRight.x)+"px";
-		photos[i].style.top=random(sectionRight.y)+"px";
+		photos[i].style.left=random(section.sectionRight.x)+"px";
+		photos[i].style.top=random(section.sectionRight.y)+"px";
+		photos[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 
 }
