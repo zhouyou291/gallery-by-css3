@@ -22,12 +22,33 @@ var datas=[
 {img:"20 马达加斯加.jpg",caption:"马达加斯加",desc:"马达加斯加电影描述"},
 ];
 
-// 屏幕左边的海报范围
+// 区域范围定义
+function range(){
+	
+	// 公共的宽和高
+	var stageW=g("stage").clientWidth;
+	var stageH=g("stage").clientHeight;
+	var halfStageW=stageW/2;
+	var halfStageH=stageH/2;
+
+	var photoW=g("photo_0").clientWidth;
+	var photoH=g("photo_0").clientHeight;
+	var halfPhotoW=photoW/2;
+	var halfPhotoH=photoH/2;
+
+	var range={sectionLeft:{x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	y:[-halfPhotoH,stageH-halfPhotoH]},sectionRight:{x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	y:[-halfPhotoH,stageH-halfPhotoH]}};
+
+	return range;
+}
+
 
 
 window.onload=function(){
 	addPhotos();
 	rsort();
+	
 
 	
 }
@@ -60,21 +81,67 @@ function random(range){
 
 // 海报翻转函数
 function reversal(eleObj){
+	// 当前海报及导航条索引
+	var currentId=eleObj.id.split("_")[1];
+	
+	var btns=g(".btn");
+
 	var eleclass=eleObj.className;
-	var flag=/photo-front/.test(eleclass);
-
-	if(flag)
+	// 如果点击的是屏幕中间的海报
+	if(/photo-center/.test(eleclass))
 	{
-		eleclass=eleclass.replace(/photo-front/,"photo-back");
-		//eleObj.className="photo-wrap photo-back";
-	}
-	else
-	{
-		eleclass=eleclass.replace(/photo-back/,"photo-front");
-		//eleObj.className="photo-wrap photo-front";
+		// 翻转海报
+		if(/photo-front/.test(eleclass))
+		{
+			eleclass=eleclass.replace(/photo-front/,"photo-back");
+			//eleObj.className="photo-wrap photo-back";
+		}
+		else
+		{
+			eleclass=eleclass.replace(/photo-back/,"photo-front");
+			//eleObj.className="photo-wrap photo-front";
+		}
+
+		eleObj.className=eleclass;
+
+		// 控制按钮图标字体旋转180度
+		// if(!btns[currentId].style.transform || btns[currentId].style.transform=="rotateY(0deg)")
+		// {
+		// 	btns[currentId].style.transform="rotateY(180deg)";
+		// }
+		// else
+		// {
+		// 	btns[currentId].style.transform="rotateY(0deg)";
+		// }
+		if(/btn-back/.test(btns[currentId].className))
+		{
+			btns[currentId].className=btns[currentId].className.replace(/\s*btn-back\s*/," ");
+			
+		}
+		else
+		{
+			btns[currentId].className+=" btn-back";
+		}
+		
+
+		
+
 	}
 
-	eleObj.className=eleclass;
+	// 如果点击的不是屏幕中间的海报
+	
+
+	g("photo_"+currentId).className+=" photo-center";
+
+	//导航条样式控制
+	// 清除所有导航条样式，设置当前样式
+	for(var i=0;i<btns.length;i++)
+	{
+		btns[i].className=btns[i].className.replace(/\s*current\s*/," ");
+	}
+
+	g("btn_"+currentId).className+=" current";
+
 
 
 
@@ -84,18 +151,27 @@ function reversal(eleObj){
 // 海报内容输出
 function addPhotos(){
 	var photos=[];
+	var btns=[];
 	var temp=g("stage").innerHTML;
+
 	for(i in datas)
 	{
 		var _html=temp.replace(/{{index}}/,i).replace(/{{img}}/,datas[i].img).replace(/{{caption}}/,datas[i].caption).replace(/{{desc}}/,datas[i].desc);
 		
 		photos.push(_html);
+
+		btns.push('<li id="btn_'+i+'" class="btn" onclick="reversal(g(\'photo_'+i+'\'))"></li>');
 	}
 	
 	g("stage").innerHTML=photos.join(" ");
+
+	g("stage").innerHTML+='<ul id="btns" class="btns">'+btns.join(" ")+'</ul>';
+
+
+
 }
 
-// 海报排序
+// 海报排序并旋转随机角度
 function rsort(){
 	var photos=[];
 	var _photos=g(".photo");
@@ -109,42 +185,56 @@ function rsort(){
 	}
 
 	var pcenter=random([0,19]);
+	// 设置画廊中心的海报
 	var photo_center=g("photo_"+pcenter);
 	photo_center.className+=" photo-center";
+	
+	// 设置中心海报对应的控制按钮样式
+	g("btn_"+pcenter).className+=" current";
+
+	// 把中心的海报从海报数组中删除
 	photo_center=photos.splice(pcenter,1)[0];
 
-	console.log(photos.length);
+	
 
-	// 公共的宽和高
-	var stageW=g("stage").clientWidth;
-	var stageH=g("stage").clientHeight;
-	var halfStageW=stageW/2;
-	var halfStageH=stageH/2;
+	// // 公共的宽和高
+	// var stageW=g("stage").clientWidth;
+	// var stageH=g("stage").clientHeight;
+	// var halfStageW=stageW/2;
+	// var halfStageH=stageH/2;
 
-	var photoW=g("photo_0").clientWidth;
-	var photoH=g("photo_0").clientHeight;
-	var halfPhotoW=photoW/2;
-	var halfPhotoH=photoH/2;
+	// var photoW=g("photo_0").clientWidth;
+	// var photoH=g("photo_0").clientHeight;
+	// var halfPhotoW=photoW/2;
+	// var halfPhotoH=photoH/2;
 
-	// 屏幕左边区域范围
-	var sectionLeft={x:[-halfPhotoW,halfStageW-halfPhotoW*3],
-	y:[-halfPhotoH,stageH-halfPhotoH]};
-	// 屏幕右边区域范围
-	var sectionRight={x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
-	y:[-halfPhotoH,stageH-halfPhotoH]};
+	// // 屏幕左边区域范围
+	// var sectionLeft={x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+	// // 屏幕右边区域范围
+	// var sectionRight={x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+
+	var section=range();
 	//排序屏幕左边的海报
 	var leftNum=Math.ceil(photos.length/2);
 	var leftDatas=photos.splice(0,leftNum);
 	for(i in leftDatas)
 	{
-		leftDatas[i].style.left=random(sectionLeft.x)+"px";
-		leftDatas[i].style.top=random(sectionLeft.y)+"px";
+		leftDatas[i].style.left=random(section.sectionLeft.x)+"px";
+		leftDatas[i].style.top=random(section.sectionLeft.y)+"px";
+		// 旋转随机角度[-30,30]
+		leftDatas[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 	// 排序屏幕右边的海报
 	for(i in photos)
 	{
-		photos[i].style.left=random(sectionRight.x)+"px";
-		photos[i].style.top=random(sectionRight.y)+"px";
+		photos[i].style.left=random(section.sectionRight.x)+"px";
+		photos[i].style.top=random(section.sectionRight.y)+"px";
+		// 旋转随机角度[-30,30]
+		photos[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 
 }
+
+

@@ -2,49 +2,99 @@
 	margin:0;padding:0;}
 
 .stage{
-	width:100%;height:700px;background-color: #000;position:absolute;top:50%;margin-top:-350px;overflow: hidden;
+	width:100%;height:800px;background-color: #000;position:absolute;top:50%;margin-top:-400px;overflow: hidden;
 }
 .stage .photo{
 	width:250px;height: 380px;background-color: #fff;position:absolute;overflow: hidden;z-index:1;box-shadow:0 0 1px 1px rgba(0,0,0,0.5);
 	perspective:800px;
 }
 .stage .photo-center{
-	top:50%;left:50%;margin-top:-190px;margin-left:-175px;
+	top:50%;left:50%;margin-top:-190px;margin-left:-125px;z-index:999;
 }
+.stage .photo-front{
+	/*transform:rotateY(0);
+	-webkit-transform:rotateY(0);*/
+	
+
+}
+.stage .photo-back{
+	/*transform:rotateY(180deg);
+	-webkit-transform:rotateY(180deg);*/
+	
+}
+
 .photo .photo-wrap{
-	width:100%;height:100%;
-	transition:all 1s;
+	width:100%;height:100%;transform-style:preserve-3d;position:absolute;transition:all 1s;
+	
 }
-.photo .side{
+
+
+.photo-wrap .side{
 	width:100%;height:100%;padding:20px;box-sizing:border-box;position: absolute;backface-visibility:hidden;
 	
 }
-.photo .photo-front{
+
+.photo-wrap .side-front{
 	transform:rotateY(0);
 	-webkit-transform:rotateY(0);
-	transform-style:preserve-3d;
-
 }
-.photo .photo-back{
-	transform:rotateY(180deg);
-	-webkit-transform:rotateY(180deg);
-	transform-style:preserve-3d;
-}
-.photo .side-front{
-	transfrom:rotateY(0);
-	-webkit-transform:rotateY(0);
-}
-.photo .photo-img{
-	width:100%;height:300px;
-}
-.photo .photo-img img{
-	width:100%;
-}
-.photo .photo-title{
-	text-align: center
-}
-.photo .side-back{
+.photo-wrap .side-back{
 	transform:rotateY(180deg);
 	-webkit-transform:rotateY(180deg);
 	background-color: #ccc
+}
+.photo-wrap .photo-img{
+	width:100%;height:300px;
+}
+.photo-wrap .photo-img img{
+	width:100%;
+}
+.photo-wrap .photo-title{
+	text-align: center
+}
+.photo-front .photo-wrap{
+	transform:rotateY(0);
+	-webkit-transform:rotateY(0);
+}
+.photo-back .photo-wrap{
+	transform:rotateY(180deg);
+	-webkit-transform:rotateY(180deg);
+}
+
+/*控制按钮*/
+@font-face{
+	font-family:"iconfont";
+	src:url("fonts/icomoon.woff") format("woff");
+
+}
+.btns{
+	list-style:none;position:absolute;left:50%;bottom:50px;overflow:hidden;z-index: 8;width:400px;margin-left:-200px;
+}
+.btns .btn{
+	width:40px;height:40px;border-radius:20px;background-color: #ccc;z-index:2;float:left;cursor:pointer;transform:scale(.6);text-align: center;transition:all 1s;
+}
+.btns .btn:after{
+	content:"\e900";
+	font-family:"iconfont";
+	width:40px;
+	height:40px;
+	text-align: center;
+	line-height:40px;
+	font-size:30px;
+	opacity:0;
+	filter:alpha(opacity=0);
+}
+
+.btns .current{
+	transform:scale(1);
+	
+}
+.btns .current:after{
+	opacity:1;
+	filter:alpha(opacity=100);
+}
+
+
+.btns .btn-back{
+	transform:rotateY(180deg);
 }
