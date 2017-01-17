@@ -79,6 +79,33 @@ function random(range){
 	return number;
 }
 
+function range(){
+
+	// 公共的宽和高
+	var stageW=g("stage").clientWidth;
+	var stageH=g("stage").clientHeight;
+	var halfStageW=stageW/2;
+	var halfStageH=stageH/2;
+
+	var photoW=g("photo_0").clientWidth;
+	var photoH=g("photo_0").clientHeight;
+	var halfPhotoW=photoW/2;
+	var halfPhotoH=photoH/2;
+
+	// 屏幕左边区域范围
+	// var sectionLeft={x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+	// 屏幕右边区域范围
+	// var sectionRight={x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	// y:[-halfPhotoH,stageH-halfPhotoH]};
+
+	var section={sectionLeft:{x:[-halfPhotoW,halfStageW-halfPhotoW*3],
+	y:[-halfPhotoH,stageH-halfPhotoH]},sectionRight:{x:[halfStageW+halfPhotoW,stageW-halfPhotoW],
+	y:[-halfPhotoH,stageH-halfPhotoH]}};
+
+	return section;
+}
+
 // 海报翻转函数
 function reversal(eleObj){
 	// 当前海报及导航条索引
@@ -151,7 +178,11 @@ function reversal(eleObj){
 // 海报内容输出
 function addPhotos(){
 	var photos=[];
+<<<<<<< HEAD
 	var btns=[];
+=======
+	var navs=[];
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 	var temp=g("stage").innerHTML;
 
 	for(i in datas)
@@ -160,15 +191,23 @@ function addPhotos(){
 		
 		photos.push(_html);
 
+<<<<<<< HEAD
 		btns.push('<li id="btn_'+i+'" class="btn" onclick="reversal(g(\'photo_'+i+'\'))"></li>');
+=======
+		navs.push('<li class="nav" id="nav_'+i+'" onclick="reversal(g(\'photo_'+i+'\'))"></li>');
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 	}
 	
 	g("stage").innerHTML=photos.join(" ");
 
+<<<<<<< HEAD
 	g("stage").innerHTML+='<ul id="btns" class="btns">'+btns.join(" ")+'</ul>';
 
 
 
+=======
+	g("stage").innerHTML+='<ul class="navs">'+navs.join(" ")+'</ul>';
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 }
 
 // 海报排序并旋转随机角度
@@ -187,7 +226,9 @@ function rsort(){
 	var pcenter=random([0,19]);
 	// 设置画廊中心的海报
 	var photo_center=g("photo_"+pcenter);
+	// 海报居中
 	photo_center.className+=" photo-center";
+<<<<<<< HEAD
 	
 	// 设置中心海报对应的控制按钮样式
 	g("btn_"+pcenter).className+=" current";
@@ -216,6 +257,16 @@ function rsort(){
 	// y:[-halfPhotoH,stageH-halfPhotoH]};
 
 	var section=range();
+=======
+	// 对应居中的导航条变大并且显示图标字体
+	g("nav_"+pcenter).className+=" s"
+
+	photo_center=photos.splice(pcenter,1)[0];
+
+	var section=range();
+
+	
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 	//排序屏幕左边的海报
 	var leftNum=Math.ceil(photos.length/2);
 	var leftDatas=photos.splice(0,leftNum);
@@ -223,7 +274,10 @@ function rsort(){
 	{
 		leftDatas[i].style.left=random(section.sectionLeft.x)+"px";
 		leftDatas[i].style.top=random(section.sectionLeft.y)+"px";
+<<<<<<< HEAD
 		// 旋转随机角度[-30,30]
+=======
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 		leftDatas[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 	// 排序屏幕右边的海报
@@ -231,7 +285,10 @@ function rsort(){
 	{
 		photos[i].style.left=random(section.sectionRight.x)+"px";
 		photos[i].style.top=random(section.sectionRight.y)+"px";
+<<<<<<< HEAD
 		// 旋转随机角度[-30,30]
+=======
+>>>>>>> 75be4bbb41141dbd3f75c3f1b766323a1d5ebeff
 		photos[i].style.transform="rotate("+random([-30,30])+"deg)";
 	}
 
